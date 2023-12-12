@@ -9,6 +9,7 @@ import { stripe } from "../../lib/stripe";
 import Stripe from "stripe";
 import axios from "axios";
 import { useState } from "react";
+import Head from "next/head";
 
 interface ProductsProps {
   product: {
@@ -41,28 +42,34 @@ export default function Product({ product }: ProductsProps) {
     }
   }
   return (
-    <ProductContainer>
-      <ImageContainer>
-        <Image
-          src={product.imageUrl}
-          alt=""
-          className="object-cover"
-          width={520}
-          height={480}
-        />
-      </ImageContainer>
+    <>
+      <Head>
+        <title>{product.name} | Ignite Shop</title>
+      </Head>
 
-      <ProductDetails>
-        <h1>{product.name}</h1>
-        <span>{product.price}</span>
+      <ProductContainer>
+        <ImageContainer>
+          <Image
+            src={product.imageUrl}
+            alt=""
+            className="object-cover"
+            width={520}
+            height={480}
+          />
+        </ImageContainer>
 
-        <p>{product.description}</p>
+        <ProductDetails>
+          <h1>{product.name}</h1>
+          <span>{product.price}</span>
 
-        <button disabled={isCreateCheckOutSession} onClick={handleBuyProduct}>
-          Comprar agora
-        </button>
-      </ProductDetails>
-    </ProductContainer>
+          <p>{product.description}</p>
+
+          <button disabled={isCreateCheckOutSession} onClick={handleBuyProduct}>
+            Comprar agora
+          </button>
+        </ProductDetails>
+      </ProductContainer>
+    </>
   );
 }
 

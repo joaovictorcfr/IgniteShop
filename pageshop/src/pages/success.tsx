@@ -4,6 +4,7 @@ import { GetServerSideProps } from "next";
 import { stripe } from "../lib/stripe";
 import Stripe from "stripe";
 import Image from "next/image";
+import Head from "next/head";
 
 interface SuccessProps {
   costumerName: string;
@@ -15,24 +16,37 @@ interface SuccessProps {
 
 export default function success({ costumerName, product }: SuccessProps) {
   return (
-    <SucessContainer>
-      <h1>Compra Efetuada</h1>
+    <>
+      <Head>
+        <title>Compra efetuada | Ignite Shop</title>
+        <meta name="robots" content="noindex" />
+      </Head>
 
-      <ImgContainer>
-        <Image src={product.imageUrl} width={120} height={110} alt="" />
-      </ImgContainer>
+      <SucessContainer>
+        <h1>Compra Efetuada</h1>
 
-      <p>
-        Uhuul <strong>{costumerName}</strong> sua camisa{" "}
-        <strong>{product.name}</strong> já está a caminho da sua casa.
-      </p>
+        <ImgContainer>
+          <Image src={product.imageUrl} width={120} height={110} alt="" />
+        </ImgContainer>
 
-      <Link href={"/"}>Voltar ao catalogo de produtos</Link>
-    </SucessContainer>
+        <p>
+          Uhuul <strong>{costumerName}</strong> sua camisa{" "}
+          <strong>{product.name}</strong> já está a caminho da sua casa.
+        </p>
+
+        <Link href={"/"}>Voltar ao catalogo de produtos</Link>
+      </SucessContainer>
+    </>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  if (!query.session_id) {
+    return {
+      redirect: { destination: "/", permanent: false },
+    };
+  }
+
   const sessionID = String(query.session_id);
 
   const session = await stripe.checkout.sessions.retrieve(sessionID, {
