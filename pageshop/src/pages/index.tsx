@@ -6,7 +6,7 @@ import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 
 import { stripe } from "../lib/stripe";
-import { GetServerSideProps, GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 import Stripe from "stripe";
 import Link from "next/link";
 
@@ -70,9 +70,6 @@ export default function Home({ products }: HomeProps) {
   );
 }
 
-// utilizando a função getServerSideProps no final do componente, utilizado ela coseguimos carregas os dados da api no servidor node, ou seja aplicação possui uma camada extra para realiza o carregamento dos dados.
-
-// export const getServerSideProps: GetServerSideProps = async () => {
 export const getStaticProps: GetStaticProps = async () => {
   const response = await stripe.products.list({
     expand: ["data.default_price"],
