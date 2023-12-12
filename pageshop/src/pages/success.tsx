@@ -27,7 +27,7 @@ export default function success({ costumerName, product }: SuccessProps) {
         <strong>{product.name}</strong> já está a caminho da sua casa.
       </p>
 
-      <Link href={"/"}>Voltar ao catalogo</Link>
+      <Link href={"/"}>Voltar ao catalogo de produtos</Link>
     </SucessContainer>
   );
 }
